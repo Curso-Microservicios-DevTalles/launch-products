@@ -1,3 +1,6 @@
 [submodule "client-gateway"]
 	path = client-gateway
 	url = https://github.com/Curso-Microservicios-DevTalles/client-gateway.git
+[submodule "products"]
+	path = products
+	url = https://github.com/Curso-Microservicios-DevTalles/products-MS.git
