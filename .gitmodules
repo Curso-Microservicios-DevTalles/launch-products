@@ -4,3 +4,6 @@
 [submodule "products"]
 	path = products
 	url = https://github.com/Curso-Microservicios-DevTalles/products-MS.git
+[submodule "orders"]
+	path = orders
+	url = https://github.com/Curso-Microservicios-DevTalles/orders-MS.git
