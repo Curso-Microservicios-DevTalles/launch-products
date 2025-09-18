@@ -29,7 +29,8 @@ services:
 
   orders:
     depends_on:
-      - orders-db
+      orders-db:
+        condition: service_healthy
     build: ./orders
     ports:
       - "3002:3002"
@@ -53,3 +54,24 @@ services:
       - "5432:5432"
     volumes:
       - ./orders/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  payments:
+    container_name: payments-microservice
+    build: ./payments
+    ports:
+      - "${PAYMENTS_MS_PORT}:${PAYMENTS_MS_PORT}"
+    volumes:
+      - ./payments/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=${PAYMENTS_MS_PORT}
+      - NATS_SERVERS=nats://nats-server:4222
+      - STRIPE_SECRET=${STRIPE_SECRET}
+      - STRIPE_SUCCESS_URL=${STRIPE_SUCCESS_URL}
+      - STRIPE_CANCEL_URL=${STRIPE_CANCEL_URL}
+      - STRIPE_ENDPOINT_SECRET=${STRIPE_ENDPOINT_SECRET}
